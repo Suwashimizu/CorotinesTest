@@ -1,6 +1,8 @@
 package org.suwashizmu.coroutinestest
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.io.IOException
 
 /**
@@ -15,8 +17,17 @@ class SomeAsyncTask {
     }
 
     suspend fun getIdWithError(): Int {
-        throw IOException("error")
 
-        return 100
+        return withContext(Dispatchers.Default) {
+
+            throw IOException("error")
+            1
+        }
+    }
+
+    suspend fun getData(): String {
+        return withContext(Dispatchers.Default) {
+            "data"
+        }
     }
 }

@@ -113,7 +113,7 @@ class ComposingSuspendingFunctions {
     }
 
     //twoでThrowされた際にcancelされ、oneへ伝搬されルためoneもcancelされる
-    suspend fun failedConcurrentSum(): Int = coroutineScope {
+    private suspend fun failedConcurrentSum(): Int = coroutineScope {
         val one = async {
             try {
                 delay(Long.MAX_VALUE) // Emulates very long computation

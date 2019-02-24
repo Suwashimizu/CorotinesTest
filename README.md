@@ -35,7 +35,7 @@ timeOutが便利そう
 
 実行時間を返す関数
 
-```
+```kotlin
 measureTimeMillis {
     //doSomething
 }
@@ -57,4 +57,27 @@ fun somethingUsefulOneAsync() = GlobalScope.async {
 
 どちらの書き方も可能だが推奨されるのはsuspendの方
 Structured concurrency with asyncを使用する
+
+## stat
+
+asyncのstartにLAZYを入れると処理の実行を明示的に呼ぶことができる
+
+```kotlin
+val one = async(start = CoroutineStart.LAZY) { doSomethingUsefulOne() }
+one.start()
+```
+
+# suspendでredundantが出る
+
+withContextをつける
+https://medium.com/@elizarov/blocking-threads-suspending-coroutines-d33e11bf4761
+
+```kotlin
+
+    suspend fun getData(): String {
+        return withContext(Dispatchers.MAIN) {
+            "data"
+        }
+    }
+```
 

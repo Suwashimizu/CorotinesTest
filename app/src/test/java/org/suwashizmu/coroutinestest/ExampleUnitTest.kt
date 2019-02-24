@@ -35,7 +35,6 @@ class ExampleUnitTest {
 
             assertEquals(10, id)
         }
-
     }
 
 
@@ -48,17 +47,21 @@ class ExampleUnitTest {
             println("add with GlobalScope $id")
 
             assertEquals(100, id)
+
+            val data = task.getData()
+            println(task.getData())
+            assertEquals(data, "data")
         }
 
         //sleepすると実行される
-        Thread.sleep(500)
+        Thread.sleep(1000)
     }
 
     //runBlockingで囲むとThreadをブロックすることでコールチンの結果を受け取れる
     @Test
     fun `add with runBlocking`() = runBlocking {
         val id = task.getId()
-
+        assertEquals("data", "data1")
         println("add $id")
 
         assertEquals(100, id)
@@ -316,6 +319,7 @@ class ExampleUnitTest {
         }
         //result = Done or null
         println("Result is $result")
+
     }
 
     private suspend fun doWorld() {
