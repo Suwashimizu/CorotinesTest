@@ -30,3 +30,31 @@ runBlocking<Unit> {} と宣言すると警告を外すことができる
 
 timeOutが便利そう
 非同期処理にかかる時間を設定できる
+
+## measureTimeMillis
+
+実行時間を返す関数
+
+```
+measureTimeMillis {
+    //doSomething
+}
+```
+
+# suspendとasync関数
+
+```kotlin
+suspend fun doSomethingUsefulOne(): Int {
+    delay(1000L)
+            return 13
+}
+
+//Asyncを付けないと警告がでる
+fun somethingUsefulOneAsync() = GlobalScope.async {
+        doSomethingUsefulOne()
+    }
+```
+
+どちらの書き方も可能だが推奨されるのはsuspendの方
+Structured concurrency with asyncを使用する
+
