@@ -58,7 +58,7 @@ fun somethingUsefulOneAsync() = GlobalScope.async {
 どちらの書き方も可能だが推奨されるのはsuspendの方
 Structured concurrency with asyncを使用する
 
-## stat
+## start
 
 asyncのstartにLAZYを入れると処理の実行を明示的に呼ぶことができる
 
@@ -81,3 +81,35 @@ https://medium.com/@elizarov/blocking-threads-suspending-coroutines-d33e11bf4761
     }
 ```
 
+# GlobalScope
+
+子のcoroutineは親のContextを引き継ぐ
+親がキャンセルされると子もキャンセルされる。
+ただしCoroutine内で新たにCoroutineを立ち上げた場合キャンセルはされない
+
+## Coroutineを扱うクラスにLifeCycleが存在する場合
+
+通信やアニメーションを非同期でおこなう場合
+Lifecycleに追従しなければMemoryLeakしてしまう
+Lifecycleに合わせてJobを管理する
+
+```kotlin
+class Activity : CoroutineScope {
+    lateinit var job: Job
+
+    fun create() {
+        job = Job()
+    }
+
+    fun destroy() {
+        job.cancel()
+    }
+    
+    // class Activity continues
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Default + job
+```
+
+## メモ
+
+実行スレッドは自由に切り替えることができる
