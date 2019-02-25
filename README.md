@@ -113,3 +113,29 @@ class Activity : CoroutineScope {
 ## メモ
 
 実行スレッドは自由に切り替えることができる
+
+
+# Exception handling
+
+launch,actorはExceptionがPrintされる
+async,produceはPrintされないがtryCatchでCatchすることができる
+
+
+## CoroutineExceptionHandler
+
+CoroutineExceptionHandlerはCoroutineContextを継承しているのでlaunchの引数に入れることができる
+
+```kotlin
+val handler = CoroutineExceptionHandler { CoroutineContext, Throwable ->  
+                                                   
+}                                                  
+                                                   
+GlobalScope.launch(handler) {                      
+                                                   
+}                                                                                                                                         
+```
+
+## 子Coroutineのexception
+
+基本はfirstWin
+最初に投げられたExceptionがキャッチされる
