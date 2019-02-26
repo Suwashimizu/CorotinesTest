@@ -80,6 +80,27 @@ class ExceptionHandlingTest {
         println(sequence().take(10).toList())
     }
 
+    //Corotineと関係なくはないsequenceのテスト
+
+    @Test
+    fun `getNextPageTest`() = runBlocking {
+
+        val pagination = getNextPage().iterator()
+
+        repeat(10) {
+            print(pagination.next())
+        }
+    }
+
+    private fun getNextPage() = sequence {
+
+        var count = 0
+
+        while (true) {
+            yield("${count++},")
+        }
+    }
+
     private fun sequence() = sequence {
 
         var counter = 0
